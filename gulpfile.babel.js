@@ -48,6 +48,6 @@ gulp.task('js', ['clean'], () => (
 gulp.task('build', ['html', 'sass', 'js']);
 
 gulp.task('default', ['build'], () => {
-  // monitor for any changes and automatically refresh browser
-  gulp.watch('_src/**/*.*', ['build']);
+  // monitor for any changes and automatically rebuild
+  // gulp.watch('_src/**/*.*', ['build']);
 });
