@@ -14,6 +14,7 @@ const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+console.log(process.env['STEAM_API_KEY']);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -28,7 +29,6 @@ app.use('/', routes);
 // POST gets urlencoded bodies
 app.post('/', (req, res) => {
   if (!req.body) return res.sendStatus(400);
-  console.log(__dirname);
   const filePath = `${__dirname}/status.md`;
   const input = req.body.input;
 
