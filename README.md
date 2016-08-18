@@ -12,7 +12,7 @@ Gathers Steam account and game stats for each player in a given CS:GO server.
 
 3. Set the Node.JS environment variable `STEAM_API_KEY` to your Steam API key
 
-4. `npm run` to start the server on `localhost:5000`
+4. `npm start` to start the server on `localhost:5000`
 
 # Usage
 
