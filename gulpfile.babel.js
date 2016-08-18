@@ -45,7 +45,13 @@ gulp.task('js', ['clean'], () => (
   .pipe(gulp.dest('./'))
 ));
 
-gulp.task('build', ['html', 'sass', 'js']);
+// move favicon
+gulp.task('favicon', ['clean'], () => {
+  gulp.src('_src/**/*.ico')
+    .pipe(gulp.dest('./'));
+});
+
+gulp.task('build', ['html', 'sass', 'js', 'favicon']);
 
 gulp.task('default', ['build'], () => {
   // monitor for any changes and automatically rebuild

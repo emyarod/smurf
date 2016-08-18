@@ -35,3 +35,7 @@ node_modules
 # Compiled project files
 status.md
 config.js
+public
+routes
+views
+app.js
