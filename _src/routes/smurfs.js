@@ -2,7 +2,6 @@ import fs from 'fs';
 import request from 'request';
 import big from 'big.js';
 import moment from 'moment';
-import STEAM_API_KEY from '../config.js';
 
 const readStatus = () => (
   new Promise((resolve, reject) => {
@@ -16,7 +15,6 @@ const readStatus = () => (
   })
 );
 
-process.env.STEAM_API_KEY = STEAM_API_KEY;
 const APIKey = process.env.STEAM_API_KEY;
 
 /**
