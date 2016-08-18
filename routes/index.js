@@ -1,1 +1,0 @@
-"use strict";function _interopRequireDefault(e){return e&&e.__esModule?e:{default:e}}var _express=require("express"),_express2=_interopRequireDefault(_express),router=_express2.default.Router();router.get("/",function(e,r,t){r.render("index",{output:""})}),module.exports=router;
