@@ -13,8 +13,8 @@ import nodemon from 'gulp-nodemon';
 gulp.task('clean', () => del(['app']));
 
 // minify html
-gulp.task('html', () => (
-  gulp.src('src/**/*.html')
+gulp.task('html', ['clean'], () => (
+  gulp.src('src/**/*.hbs')
   .pipe(htmlmin({
     collapseWhitespace: true,
     minifyCSS: true,
@@ -25,7 +25,7 @@ gulp.task('html', () => (
 ));
 
 // compile and minify scss
-gulp.task('sass', ['html'], () => (
+gulp.task('sass', ['clean'], () => (
   gulp.src('src/**/*.scss')
   .pipe(sass({ outputStyle: 'compressed' })
     .on('error', sass.logError))
@@ -33,7 +33,7 @@ gulp.task('sass', ['html'], () => (
 ));
 
 // transpile and minify js
-gulp.task('js', ['sass'], () => (
+gulp.task('js', ['clean'], () => (
   gulp.src('src/**/*.js')
   .pipe(babel())
   .pipe(uglify({
@@ -43,7 +43,7 @@ gulp.task('js', ['sass'], () => (
 ));
 
 // monitor for any changes and automatically restart the server
-gulp.task('nodemon', ['js'], (cb) => {
+gulp.task('nodemon', ['build'], (cb) => {
   let started = false;
   return nodemon({
     script: 'app/app.js',
@@ -65,12 +65,12 @@ gulp.task('browser-sync', ['nodemon'], () => {
   });
 });
 
-// gulp.task('build', ['html', 'sass', 'js']);
+gulp.task('build', ['html', 'sass', 'js']);
 
 // run 'js' task before reloading browsers
-gulp.task('watch', ['js'], browserSync.reload);
+gulp.task('watch', ['build'], browserSync.reload);
 
-gulp.task('default', ['clean', 'browser-sync'], () => {
+gulp.task('default', ['browser-sync'], () => {
   // monitor for any changes and automatically refresh browser
   gulp.watch('src/**/*.*', ['watch']);
 });
