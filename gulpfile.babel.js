@@ -6,71 +6,48 @@ import htmlmin from 'gulp-htmlmin';
 import sass from 'gulp-sass';
 import babel from 'gulp-babel';
 import uglify from 'gulp-uglify';
-import browserSync from 'browser-sync';
-import nodemon from 'gulp-nodemon';
 
 // clean out destination files and folders before rebuilding from source
-gulp.task('clean', () => del(['app']));
+gulp.task('clean', () => del([
+  'public/stylesheets',
+  'routes',
+  'views',
+  './app.js',
+]));
 
 // minify html
 gulp.task('html', ['clean'], () => (
-  gulp.src('src/**/*.hbs')
+  gulp.src('_src/**/*.hbs')
   .pipe(htmlmin({
     collapseWhitespace: true,
     minifyCSS: true,
     minifyJS: true,
     removeComments: true,
   }))
-  .pipe(gulp.dest('app'))
+  .pipe(gulp.dest('./'))
 ));
 
 // compile and minify scss
 gulp.task('sass', ['clean'], () => (
-  gulp.src('src/**/*.scss')
+  gulp.src('_src/**/*.scss')
   .pipe(sass({ outputStyle: 'compressed' })
     .on('error', sass.logError))
-  .pipe(gulp.dest('app'))
+  .pipe(gulp.dest('./'))
 ));
 
 // transpile and minify js
 gulp.task('js', ['clean'], () => (
-  gulp.src('src/**/*.js')
+  gulp.src('_src/**/*.js')
   .pipe(babel())
   .pipe(uglify({
     mangle: true,
   }))
-  .pipe(gulp.dest('app'))
+  .pipe(gulp.dest('./'))
 ));
-
-// monitor for any changes and automatically restart the server
-gulp.task('nodemon', ['build'], (cb) => {
-  let started = false;
-  return nodemon({
-    script: 'app/app.js',
-  }).on('start', () => {
-    // to avoid nodemon being started multiple times
-    if (!started) {
-      cb();
-      started = true;
-    }
-  });
-});
-
-gulp.task('browser-sync', ['nodemon'], () => {
-  browserSync.init(null, {
-    proxy: 'http://localhost:5000',
-    files: ['app/**/*.*'],
-    browser: 'chrome',
-    port: 8080,
-  });
-});
 
 gulp.task('build', ['html', 'sass', 'js']);
 
-// run 'js' task before reloading browsers
-gulp.task('watch', ['build'], browserSync.reload);
-
-gulp.task('default', ['browser-sync'], () => {
+gulp.task('default', ['build'], () => {
   // monitor for any changes and automatically refresh browser
-  gulp.watch('src/**/*.*', ['watch']);
+  gulp.watch('_src/**/*.*', ['build']);
 });
