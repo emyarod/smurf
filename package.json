@@ -1,6 +1,9 @@
 {
   "name": "smurf",
   "version": "1.0.0",
+  "engines": {
+    "node": "6.11.1"
+  },
   "description": "steam smurf checker",
   "main": "app.js",
   "scripts": {
